@@ -392,7 +392,33 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      record_audit_event: {
+        Args: {
+          _engagement_id: string
+          _entity_id: string
+          _entity_type: string
+          _event_type: Database["public"]["Enums"]["audit_event_type"]
+          _message: string
+          _metadata?: Json
+        }
+        Returns: {
+          actor_id: string
+          created_at: string
+          engagement_id: string
+          entity_id: string | null
+          entity_type: string
+          event_type: Database["public"]["Enums"]["audit_event_type"]
+          id: string
+          message: string
+          metadata: Json
+        }
+        SetofOptions: {
+          from: "*"
+          to: "audit_events"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       audit_event_type:
