@@ -124,8 +124,10 @@ const initialActivity = [
   { initials: "CA", text: "returned review note RN-008 to preparer", time: "1 hr ago", color: "warning" as const },
 ];
 
+const defaultEngagement: Engagement = { code: "ENG-25-014", client: "Northstar Components", year: "FY 2025–26", status: "Fieldwork", progress: 78 };
+
 const initialEngagements: Engagement[] = [
-  { code: "ENG-25-014", client: "Northstar Components", year: "FY 2025–26", status: "Fieldwork", progress: 78 },
+  defaultEngagement,
   { code: "ENG-25-011", client: "Cedar Healthcare", year: "FY 2025–26", status: "Partner review", progress: 91 },
   { code: "ENG-25-008", client: "Meridian Foods", year: "FY 2025–26", status: "Planning", progress: 24 },
 ];
@@ -156,7 +158,7 @@ function EngagementControlCenter() {
   const [queries, setQueries] = useState(initialQueries);
   const [activity, setActivity] = useState(initialActivity);
   const [engagements, setEngagements] = useState(initialEngagements);
-  const [currentEngagement, setCurrentEngagement] = useState(initialEngagements[0]);
+  const [currentEngagement, setCurrentEngagement] = useState(defaultEngagement);
   const [hours, setHours] = useState(initialHours);
   const [documents, setDocuments] = useState<string[]>(["Bank reconciliation support.pdf", "Inventory ageing 31 Mar.xlsx", "Board minutes — Q4.pdf"]);
   const [materiality, setMateriality] = useState({ benchmark: "Revenue", amount: "420000000", percentage: "1.8", performance: "75", trivial: "5", inherent: "Medium", control: "Medium", detection: "Medium", rationale: "Revenue is the most relevant benchmark for users of the financial statements and reflects the scale of the operating business." });
@@ -308,7 +310,7 @@ function WorkspaceView({ activeNav, currentEngagement, engagements, hours, total
     "Reports": { eyebrow: "Management", title: "Reports", description: "Generate a review-ready snapshot of progress, hours, findings and file health." },
     "Firm & access": { eyebrow: "Administration", title: "Firm & access", description: "Manage the people and roles that can work on this engagement." },
   };
-  const copy = viewCopy[activeNav] ?? viewCopy["Engagements"];
+  const copy = viewCopy[activeNav] ?? viewCopy.Engagements;
   return <div className="mx-auto max-w-[1240px] px-5 py-7 md:px-9 md:py-9"><section className="flex flex-col justify-between gap-6 border-b border-border pb-7 md:flex-row md:items-end"><div><div className="audit-label text-primary">{copy.eyebrow}</div><h1 className="mt-3 text-3xl font-black tracking-tight md:text-[42px]">{copy.title}</h1><p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">{copy.description} <span className="font-semibold text-foreground">{currentEngagement.code}</span> · {currentEngagement.client}.</p></div><div className="flex flex-wrap gap-2">{activeNav === "Engagements" && <Button onClick={() => setDialog("engagements")}><Plus /> New engagement</Button>}{activeNav === "Work queue" && <Button onClick={() => setDialog("hours")}><Clock3 /> Log hours</Button>}{activeNav === "Documents" && <Button onClick={() => setDialog("document")}><Upload /> Add evidence</Button>}{activeNav === "Reports" && <Button onClick={() => showNotice("Report prepared for download")}><Download /> Export snapshot</Button>}</div></section>
     {activeNav === "Engagements" && <EngagementsPanel engagements={engagements} currentEngagement={currentEngagement} setDialog={setDialog} />}
     {activeNav === "Work queue" && <WorkQueuePanel hours={hours} totalHours={totalHours} setDialog={setDialog} openNav={openNav} />}
