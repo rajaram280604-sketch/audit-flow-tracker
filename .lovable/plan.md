@@ -49,7 +49,7 @@ Keep the current layout, navigation, dialogs, and visual styling, but replace th
 - Show explicit loading, empty, validation, permission-denied, and save-failed states. No success toast will be shown for an unconfirmed write.
 - Leave query, hours, documents, materiality, review notes, and activity display in local state for this milestone, but remove any wording that implies those local actions are durably saved until their domains are wired.
 
-### 5. Stage the remaining workpaper model without fabricating saves
+### 5. Record the remaining workpaper model in the architecture roadmap only
 Prepare the follow-on schema/data model as separate migrations, preserving existing tables and history:
 - `workpapers` and workpaper versions linked to engagements, audit areas, preparers, reviewers, status, conclusions, and evidence references.
 - `queries`, `management_responses`, and `auditor_evaluations` with explicit workflow ownership and immutable decision/audit history.
